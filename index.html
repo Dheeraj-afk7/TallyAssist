@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tally Assist - Auth System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+    }
+    /* Top Navbar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background: #0077b6;
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    .topbar .left-menu, .topbar .center-logo, .topbar .right-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .topbar .left-menu i, .topbar .right-menu img {
+      cursor: pointer;
+    }
+    .topbar .center-logo img {
+      width: 25px;
+      margin-right: 8px;
+    }
+    .topbar .center-logo span {
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 50px;
+      left: 10px;
+      background: white;
+      color: black;
+      min-width: 150px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-radius: 6px;
+      z-index: 1001;
+    }
+    .dropdown-content a {
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+      color: black;
+    }
+    .dropdown-content a:hover {
+      background: #f0f0f0;
+    }
+
+    /* Bottom Navbar */
+    .bottombar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+      background: #fff;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .bottombar i {
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .bottombar input[type="file"] {
+      display: none;
+    }
+
+    /* Containers */
+    .container {
+      width: 450px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      display: none;
+      margin: 80px auto 80px; /* adjust for top & bottom nav */
+    }
+    .container.active {
+      display: block;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header .logo {
+      width: 50px;
+      margin-bottom: 1 px;
+    }
+    header h1 {
+      color: #0077b6;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+    }
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #0077b6;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #023e8a;
+    }
+    .link {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .link a {
+      color: #0077b6;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .link a:hover {
+      text-decoration: underline;
+    }
+    .password-rules {
+      font-size: 0.85rem;
+      margin-top: -5px;
+    }
+    .rule {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: red;
+    }
+    .rule.valid {
+      color: green;
+    }
+
+    /* FAQ and Contact Sections */
+    .faq, .contact, .settings, .account-info {
+      display: none;
+      padding: 20px;
+      margin-top: 60px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .home-content {
+      margin-top: 60px;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navbar -->
+  <div class="topbar">
+    <div class="left-menu">
+      <i class="fas fa-bars" onclick="toggleDropdown('menuDropdown')"></i>
+      <div id="menuDropdown" class="dropdown-content">
+        <a href="#">Dashboard</a>
+        <a href="#">Transactions</a>
+        <a href="#">Reports</a>
+        <a href="#">Analytics</a>
+      </div>
+    </div>
+    <div class="center-logo" onclick="showHome()">
+      <img src="logo.png" alt="Logo">
+      <span>TallyAssist</span>
+    </div>
+    <div class="right-menu">
+      <i class="fas fa-question-circle" onclick="showFAQ()"></i>
+      <i class="fas fa-envelope" onclick="showContact()"></i>
+      <img src="user.jpg" alt="Account" width="35" style="border-radius:50%;" onclick="showAccountInfo()">
+    </div>
+  </div>
+
+  <!-- Bottom Navbar (only on home page) -->
+  <div class="bottombar" id="homeBottomBar">
+    <i class="fas fa-cog" onclick="showSettings()"></i>
+    <i class="fas fa-magnifying-glass"></i>
+    <label>
+      <i class="fas fa-camera"></i>
+      <input type="file" accept="image/*" capture="environment" onchange="showCapturedImage(event)">
+    </label>
+    <i class="fas fa-plus"></i>
+    <i class="fas fa-calculator"></i>
+  </div>
+
+  <!-- Login Page -->
+  <div class="container active" id="loginPage">
+    <header>
+      <img src="logo.png" alt="Tally Assist Logo" class="logo" />
+      <h1>Tally Assist</h1>
+      <h3>Login</h3>
+    </header>
+    <form id="loginForm">
+      <input type="text" id="loginEmail" placeholder="Email or Phone" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+    <div class="link">
+      <a href="#" onclick="showPage('forgotPage')">Forgot Password?</a><br>
+      <a href="#" onclick="showPage('signupPage')">New user? Sign Up</a>
+    </div>
+  </div>
+
+  <!-- Signup Page -->
+  <div class="container" id="signupPage">
+    <header>
+      <img src="logo.png" alt="Tally Assist Logo" class="logo" />
+      <h1>Tally Assist</h1>
+      <h3>Sign Up</h3>
+    </header>
+    <form id="signupForm">
+      <input type="text" id="firstName" placeholder="First Name" required />
+      <input type="text" id="lastName" placeholder="Last Name" required />
+      <input type="text" id="emailPhone" placeholder="Email or Phone Number" required />
+      <select id="state" required>
+        <option value="">Select State</option>
+        <option value="Maharashtra">Maharashtra</option>
+        <option value="Karnataka">Karnataka</option>
+        <option value="Tamil Nadu">Tamil Nadu</option>
+      </select>
+      <select id="district" required disabled>
+        <option value="">Select District</option>
+      </select>
+      <select id="bank" required>
+        <option value="">Select Bank</option>
+        <option>SBI</option>
+        <option>HDFC Bank</option>
+        <option>ICICI Bank</option>
+        <option>Punjab National Bank</option>
+        <option>Axis Bank</option>
+      </select>
+      <input type="text" id="branch" placeholder="Bank Branch" required />
+      <input type="text" id="ifsc" placeholder="IFSC Code" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <div class="password-rules">
+        <div id="rule-uppercase" class="rule">❌ At least one uppercase</div>
+        <div id="rule-lowercase" class="rule">❌ At least one lowercase</div>
+        <div id="rule-number" class="rule">❌ At least one number</div>
+        <div id="rule-special" class="rule">❌ At least one special character</div>
+        <div id="rule-length" class="rule">❌ Minimum 10 characters</div>
+      </div>
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="link">
+      <a href="#" onclick="showPage('loginPage')">Already have an account? Login</a>
+    </div>
+  </div>
+
+  <!-- Forgot Password Page -->
+  <div class="container" id="forgotPage">
+    <header>
+      <img src="logo.png" alt="Tally Assist Logo" class="logo" />
+      <h1>Tally Assist</h1>
+      <h3>Forgot Password</h3>
+    </header>
+    <form id="forgotForm">
+      <input type="text" id="forgotEmail" placeholder="Enter Email or Phone" required />
+      <button type="submit">Send OTP</button>
+    </form>
+    <div class="link">
+      <a href="#" onclick="showPage('loginPage')">Back to Login</a>
+    </div>
+  </div>
+
+  <!-- OTP Verification Page -->
+  <div class="container" id="otpPage">
+    <header>
+      <img src="logo.png" alt="Tally Assist Logo" class="logo" />
+      <h1>Tally Assist</h1>
+      <h3>Enter OTP</h3>
+    </header>
+    <form id="otpForm">
+      <input type="text" id="otpInput" placeholder="Enter OTP" required />
+      <button type="submit">Verify OTP</button>
+    </form>
+  </div>
+
+  <!-- Reset Password Page -->
+  <div class="container" id="resetPage">
+    <header>
+      <img src="logo.png" alt="Tally Assist Logo" class="logo" />
+      <h1>Tally Assist</h1>
+      <h3>Reset Password</h3>
+    </header>
+    <form id="resetForm">
+      <input type="password" id="newPassword" placeholder="Enter New Password" required />
+      <button type="submit">Change Password</button>
+    </form>
+  </div>
+
+  <!-- Home Page -->
+  <div class="container" id="mainPage">
+    <div class="home-content">
+      <h2>Welcome to TallyAssist 🎉</h2>
+      <p>Here you can manage your finances, track transactions, generate reports, and analyze trends easily.</p>
+      <img id="capturedImage" style="max-width:300px; margin-top:20px; display:none;" />
+    </div>
+    <div class="faq">
+      <h3>FAQ</h3>
+      <p><b>Q:</b> How to add a bank account?<br><b>A:</b> Go to the "Transactions" tab and select "Add Account".</p>
+      <p><b>Q:</b> How to generate reports?<br><b>A:</b> Visit the "Reports" section in the menu to generate financial reports.</p>
+      <button onclick="hideSections()">Close</button>
+    </div>
+    <div class="contact">
+      <h3>Contact Us</h3>
+      <p>Email: support@tallyassist.com</p>
+      <p>Phone: +91-9876543210</p>
+      <button onclick="hideSections()">Close</button>
+    </div>
+    <div class="settings">
+      <h3>Settings</h3>
+      <p>Change theme, notification preferences, or linked accounts.</p>
+      <button onclick="hideSections()">Close</button>
+    </div>
+    <div class="account-info">
+      <h3>Account Info</h3>
+      <p>Name: <span id="accName"></span></p>
+      <p>Email: <span id="accEmail"></span></p>
+      <button onclick="hideSections()">Close</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    let users = {}; 
+    let currentEmail = "";
+    let generatedOTP = "";
+
+    function showPage(pageId) {
+      document.querySelectorAll(".container").forEach(c => c.classList.remove("active"));
+      document.getElementById(pageId).classList.add("active");
+    }
+
+    function toggleDropdown(id) {
+      const dropdown = document.getElementById(id);
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function hideSections() {
+      document.querySelectorAll('.faq, .contact, .settings, .account-info').forEach(s => s.style.display = 'none');
+    }
+
+    function showFAQ() { hideSections(); document.querySelector('.faq').style.display = 'block'; }
+    function showContact() { hideSections(); document.querySelector('.contact').style.display = 'block'; }
+    function showSettings() { hideSections(); document.querySelector('.settings').style.display = 'block'; }
+    function showAccountInfo() {
+      hideSections();
+      if(currentEmail && users[currentEmail]){
+        document.getElementById('accName').textContent = users[currentEmail].firstName + " " + users[currentEmail].lastName;
+        document.getElementById('accEmail').textContent = users[currentEmail].emailPhone;
+      }
+      document.querySelector('.account-info').style.display = 'block';
+    }
+    function showHome() { hideSections(); }
+
+    // Districts by state
+    const districtsByState = {
+      "Maharashtra": ["Mumbai", "Pune", "Nagpur"],
+      "Karnataka": ["Bengaluru", "Mysuru", "Mangaluru"],
+      "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai"]
+    };
+    document.getElementById("state").addEventListener("change", function () {
+      const state = this.value;
+      const districtSelect = document.getElementById("district");
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+      if (state && districtsByState[state]) {
+        districtsByState[state].forEach(d => {
+          const option = document.createElement("option");
+          option.value = d;
+          option.textContent = d;
+          districtSelect.appendChild(option);
+        });
+        districtSelect.disabled = false;
+      } else {
+        districtSelect.disabled = true;
+      }
+    });
+
+    // Password rules check
+    const passwordInput = document.getElementById("password");
+    passwordInput.addEventListener("input", function () {
+      const val = this.value;
+      document.getElementById("rule-uppercase").classList.toggle("valid", /[A-Z]/.test(val));
+      document.getElementById("rule-lowercase").classList.toggle("valid", /[a-z]/.test(val));
+      document.getElementById("rule-number").classList.toggle("valid", /[0-9]/.test(val));
+      document.getElementById("rule-special").classList.toggle("valid", /[^A-Za-z0-9]/.test(val));
+      document.getElementById("rule-length").classList.toggle("valid", val.length >= 10);
+
+      document.querySelectorAll(".rule").forEach(rule => {
+        if (rule.classList.contains("valid")) {
+          rule.textContent = "✅ " + rule.textContent.replace("✅ ", "").replace("❌ ", "");
+        } else {
+          rule.textContent = "❌ " + rule.textContent.replace("✅ ", "").replace("❌ ", "");
+        }
+      });
+    });
+
+    // Signup
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const firstName = document.getElementById("firstName").value;
+      const lastName = document.getElementById("lastName").value;
+      const emailPhone = document.getElementById("emailPhone").value;
+      const state = document.getElementById("state").value;
+      const district = document.getElementById("district").value;
+      const bank = document.getElementById("bank").value;
+      const branch = document.getElementById("branch").value;
+      const ifsc = document.getElementById("ifsc").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      const validPassword =
+        /[A-Z]/.test(password) &&
+        /[a-z]/.test(password) &&
+        /[0-9]/.test(password) &&
+        /[^A-Za-z0-9]/.test(password) &&
+        password.length >= 10;
+
+      if (!validPassword) {
+        alert("Password does not meet requirements!");
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+      if (users[emailPhone]) {
+        alert("User already exists!");
+        return;
+      }
+
+      users[emailPhone] = { firstName, lastName, emailPhone, state, district, bank, branch, ifsc, password };
+      alert("Signup successful! Please login.");
+      showPage("loginPage");
+    });
+
+    // Login
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let email = document.getElementById("loginEmail").value;
+      let password = document.getElementById("loginPassword").value;
+      if (users[email] && users[email].password === password) {
+        currentEmail = email;
+        showPage("mainPage");
+      } else {
+        alert("Invalid credentials!");
+      }
+    });
+
+    // Forgot Password
+    document.getElementById("forgotForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let email = document.getElementById("forgotEmail").value;
+      if (users[email]) {
+        currentEmail = email;
+        generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+        alert("OTP sent to " + email + ": " + generatedOTP);
+        showPage("otpPage");
+      } else {
+        alert("User not found!");
+      }
+    });
+
+    // OTP verification
+    document.getElementById("otpForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let otp = document.getElementById("otpInput").value;
+      if (otp === generatedOTP) {
+        alert("OTP verified!");
+        showPage("resetPage");
+      } else {
+        alert("Invalid OTP!");
+      }
+    });
+
+    // Reset Password
+    document.getElementById("resetForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let newPassword = document.getElementById("newPassword").value;
+      users[currentEmail].password = newPassword;
+      alert("Password updated successfully!");
+      showPage("loginPage");
+    });
+
+    // Logout
+    function logout() {
+      currentEmail = "";
+      showPage("loginPage");
+    }
+
+    // Camera capture
+    function showCapturedImage(event){
+      const file = event.target.files[0];
+      if(file){
+        const img = document.getElementById('capturedImage');
+        img.src = URL.createObjectURL(file);
+        img.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
