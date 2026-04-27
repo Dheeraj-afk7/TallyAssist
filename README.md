@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Dheeraj-afk7/TallyAssist/main/frontend/public/logo.png" alt="TallyAssist Logo" width="120" />
+</p>
+
 # TallyAssist 🧾
 
 **TallyAssist** is a production-grade, AI-powered Invoice Management SaaS. It uses Google's Gemini 2.5 Flash vision model to instantly extract, verify, categorize, and export invoice data — eliminating manual data entry and seamlessly integrating with Tally ERP.
