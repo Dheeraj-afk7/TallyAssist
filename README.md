@@ -177,7 +177,7 @@ TallyAssist/
 
 **K Dheeraj** — Full Stack Developer
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/your-linkedin-here)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/dheeraj-karukola-363a81340)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/Dheeraj-afk7)
 
 > Built with ❤️ using FastAPI, React, Gemini 2.5 Flash & PostgreSQL.
