@@ -2,14 +2,35 @@
   <img src="https://raw.githubusercontent.com/Dheeraj-afk7/TallyAssist/main/frontend/public/logo.png" alt="TallyAssist Logo" width="120" />
 </p>
 
-# TallyAssist 🧾
+<h1 align="center">TallyAssist 🧾</h1>
 
-**TallyAssist** is a production-grade, AI-powered Invoice Management SaaS. It uses Google's Gemini 2.5 Flash vision model to instantly extract, verify, categorize, and export invoice data — eliminating manual data entry and seamlessly integrating with Tally ERP.
+<p align="center">
+  <b>AI-powered Invoice Management SaaS — Extract, Organize & Export invoices in seconds.</b>
+</p>
 
-🌐 **Live App:** [https://tally-assist-n4jw.vercel.app](https://tally-assist-n4jw.vercel.app)  
-⚙️ **API Docs:** [https://tallyassist-backend.onrender.com/docs](https://tallyassist-backend.onrender.com/docs)
+<p align="center">
+  <a href="https://tally-assist-n4jw.vercel.app"><img src="https://img.shields.io/badge/Live%20App-Vercel-black?style=for-the-badge&logo=vercel" alt="Vercel" /></a>
+  <a href="https://tallyassist-backend.onrender.com/docs"><img src="https://img.shields.io/badge/Backend%20API-Render-46E3B7?style=for-the-badge&logo=render" alt="Render" /></a>
+  <img src="https://img.shields.io/badge/AI-Gemini%202.5%20Flash-FF6F00?style=for-the-badge&logo=google" alt="Gemini" />
+  <img src="https://img.shields.io/badge/DB-PostgreSQL-336791?style=for-the-badge&logo=postgresql" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB?style=for-the-badge&logo=react" alt="React" />
+</p>
+
+<p align="center">
+  🌐 <a href="https://tally-assist-n4jw.vercel.app"><b>Live Demo</b></a> &nbsp;|&nbsp;
+  ⚙️ <a href="https://tallyassist-backend.onrender.com/docs"><b>API Docs</b></a>
+</p>
 
 ---
+
+## 📸 Preview
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Dheeraj-afk7/TallyAssist/main/frontend/public/dashboard_preview.png" alt="TallyAssist Dashboard" width="100%" />
+</p>
+
+---
+
 
 ## 🚀 Key Features
 
@@ -149,3 +170,14 @@ TallyAssist/
 ├── render.yaml          # Render deployment blueprint
 └── README.md
 ```
+
+---
+
+## 👨‍💻 Built By
+
+**K Dheeraj** — Full Stack Developer
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/your-linkedin-here)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/Dheeraj-afk7)
+
+> Built with ❤️ using FastAPI, React, Gemini 2.5 Flash & PostgreSQL.
