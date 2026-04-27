@@ -11,9 +11,13 @@ models.Base.metadata.create_all(bind=database.engine)
 app = FastAPI(title="TallyAssist API", description="AI-powered SaaS platform for invoice processing", version="1.0.0")
 
 # Setup CORS for Frontend
+import os as _os
+_raw_origins = _os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000")
+_allowed_origins = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # For development; change in production
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
