@@ -5,8 +5,8 @@ import { Activity } from 'lucide-react';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('demo@tallyassist.com');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login, register } = useContext(AuthContext);
   const navigate = useNavigate();
