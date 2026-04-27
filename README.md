@@ -1,93 +1,147 @@
-# TallyAssist
+# TallyAssist 🧾
 
-TallyAssist is a comprehensive AI-powered SaaS application designed to automate the extraction, categorization, and management of invoices. By leveraging Google's Gemini 2.5 Flash vision model, TallyAssist eliminates manual data entry, allowing businesses to seamlessly process invoices and export the data directly into Tally ERP format.
+**TallyAssist** is a production-grade, AI-powered Invoice Management SaaS. It uses Google's Gemini 2.5 Flash vision model to instantly extract, verify, categorize, and export invoice data — eliminating manual data entry and seamlessly integrating with Tally ERP.
+
+🌐 **Live App:** [https://tally-assist-n4jw.vercel.app](https://tally-assist-n4jw.vercel.app)  
+⚙️ **API Docs:** [https://tallyassist-backend.onrender.com/docs](https://tallyassist-backend.onrender.com/docs)
+
+---
 
 ## 🚀 Key Features
 
-*   **AI-Powered OCR & Extraction:** Instantly extracts Vendor Name, Invoice Number, Date, GSTIN, Total Amount, and detailed Line Items from any PDF, JPG, or PNG invoice.
-*   **Smart Folder Organization:** Categorize your invoices into custom folders. Organize your expenses by project, vendor, or month using an intuitive dynamic dropdown system.
-*   **Live Quota Tracking:** Stay on top of your API usage with real-time tracking of your Gemini API limits (per minute and per day) directly on the upload dashboard.
-*   **Line Item Management:** Full control over extracted data. Manually edit, add, or delete specific line items before exporting.
-*   **Tally ERP Export:** One-click JSON export perfectly structured for seamless importing into Tally ERP software.
-*   **Premium Glassmorphism UI:** A stunning, modern, and responsive interface featuring dynamic scanner animations and tailored aesthetics.
+| Feature | Description |
+|---|---|
+| 🤖 **AI Invoice Extraction** | Gemini 2.5 Flash OCR extracts Vendor, Invoice No., Date, GSTIN, Amount & Line Items from PDF/JPG/PNG |
+| 📁 **Smart Folder Organization** | Categorize invoices into custom folders with a dynamic dropdown system |
+| 📊 **Live API Quota Tracker** | Real-time badge showing remaining Gemini requests (per-minute & per-day) |
+| ✏️ **Full Line Item Control** | Edit, add, or delete extracted line items with auto-recalculated totals |
+| 🔄 **Move Between Folders** | Reassign any invoice to a different folder from the detail view |
+| 🗑️ **Invoice Deletion** | Permanently delete individual invoices |
+| 📤 **Tally ERP Export** | One-click JSON export structured for direct import into Tally ERP |
+| ✨ **Dynamic Scanner UI** | Glassmorphism pulsating scanner animation with rotating status messages |
+| 🚨 **Rate Limit Alerts** | Graceful error handling when Gemini API quota is exhausted |
+| 🔐 **JWT Authentication** | Secure user accounts with hashed passwords and token-based auth |
+
+---
 
 ## 🛠️ Technology Stack
 
-**Frontend:**
-*   React.js with Vite
-*   React Router (SPA Navigation)
-*   Lucide React (Icons)
-*   Custom Vanilla CSS (Glassmorphism & Keyframe Animations)
+**Frontend**
+- React.js + Vite
+- React Router (SPA Navigation)
+- Lucide React (Icons)
+- Axios (HTTP Client)
+- Custom Vanilla CSS (Glassmorphism & Keyframe Animations)
 
-**Backend:**
-*   FastAPI (High-performance Python web framework)
-*   SQLAlchemy & Psycopg2 (ORM and PostgreSQL driver)
-*   Google GenAI SDK (Gemini 2.5 Flash for OCR)
-*   PyJWT & Passlib (Authentication & Security)
+**Backend**
+- FastAPI (High-performance Python web framework)
+- SQLAlchemy + Psycopg2 (ORM & PostgreSQL driver)
+- Google GenAI SDK (`google-genai`) — Gemini 2.5 Flash
+- python-jose + passlib (JWT Auth & bcrypt password hashing)
 
-**Database:**
-*   PostgreSQL (Hosted via Neon)
+**Database**
+- PostgreSQL (Hosted on Neon)
+
+**Deployment**
+- Frontend → **Vercel**
+- Backend → **Render** (Free tier, Python Web Service)
+- Database → **Neon** (Serverless PostgreSQL)
+
+---
 
 ## ⚙️ Local Development Setup
 
-Follow these instructions to run TallyAssist locally.
-
 ### Prerequisites
-*   Node.js (v18+)
-*   Python (3.9+)
-*   PostgreSQL Database URL
-*   Google Gemini API Key
+- Node.js v18+
+- Python 3.9+
+- A [Neon](https://neon.tech) PostgreSQL database URL
+- A [Google Gemini](https://aistudio.google.com) API Key
 
-### 1. Backend Setup
+### 1. Clone the Repo
+```bash
+git clone https://github.com/Dheeraj-afk7/TallyAssist.git
+cd TallyAssist
+```
 
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/Scripts/activate  # On Windows
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Create a `.env` file in the `backend` directory:
-   ```env
-   DATABASE_URL="postgresql://user:password@host/dbname"
-   SECRET_KEY="your-super-secret-key"
-   GEMINI_API_KEY="your-gemini-api-key"
-   ```
-5. Run the backend server:
-   ```bash
-   uvicorn main:app --reload
-   ```
+### 2. Backend Setup
+```bash
+cd backend
+python -m venv venv
+source venv/Scripts/activate   # Windows
+pip install -r requirements.txt
+```
 
-### 2. Frontend Setup
+Create a `.env` file in the `backend/` directory:
+```env
+DATABASE_URL=your_neon_postgres_url
+SECRET_KEY=your_secret_key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+GEMINI_API_KEY=your_gemini_api_key
+```
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
+Run the backend:
+```bash
+uvicorn main:app --reload
+```
 
-### 3. Access the Application
-Open your browser and navigate to the local frontend server URL (usually `http://localhost:5173`). 
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-*   **Demo Account:** `demo@tallyassist.com`
-*   **Password:** `password123`
+The frontend runs on `http://localhost:5173` and connects to the backend at `http://localhost:8000/api` by default.
 
-## 📦 Deployment Ready
+---
 
-TallyAssist is architected for modern cloud deployment. 
-*   The **Backend** is ready to be hosted on services like Render, Heroku, or AWS via Uvicorn.
-*   The **Frontend** can be instantly built (`npm run build`) and deployed to Vercel, Netlify, or Cloudflare Pages.
-*   The **Database** utilizes Neon, ensuring robust cloud-native PostgreSQL performance.
+## ☁️ Deployment Guide
+
+### Backend → Render
+
+The repo includes a `render.yaml` Blueprint. From [Render](https://render.com):
+1. **New → Blueprint** → Connect your GitHub repo
+2. Set the following **Environment Variables** on Render:
+   - `DATABASE_URL` — Your Neon Postgres URL
+   - `GEMINI_API_KEY` — Your Gemini API Key
+   - `SECRET_KEY` — Auto-generated by Render
+3. Deploy!
+
+### Frontend → Vercel
+
+1. Go to [Vercel](https://vercel.com) → **New Project** → Import repo
+2. Set **Root Directory** to `frontend`
+3. Add **Environment Variable:**
+   - `VITE_API_URL` = `https://your-render-backend-url.onrender.com/api`
+4. Deploy!
+
+---
+
+## 📁 Project Structure
+
+```
+TallyAssist/
+├── backend/
+│   ├── main.py          # FastAPI routes & application
+│   ├── models.py        # SQLAlchemy database models
+│   ├── schemas.py       # Pydantic request/response schemas
+│   ├── auth.py          # JWT authentication logic
+│   ├── ai_pipeline.py   # Gemini 2.5 Flash OCR pipeline
+│   ├── database.py      # DB engine & session setup
+│   └── requirements.txt
+├── frontend/
+│   └── src/
+│       ├── pages/
+│       │   ├── Dashboard.jsx      # Folder grid overview
+│       │   ├── FolderView.jsx     # Individual folder contents
+│       │   ├── InvoiceDetail.jsx  # Single invoice deep-dive
+│       │   ├── UploadInvoice.jsx  # AI upload & verification
+│       │   └── Login.jsx
+│       ├── components/
+│       │   └── Sidebar.jsx
+│       └── utils/
+│           └── api.js             # Axios instance
+├── render.yaml          # Render deployment blueprint
+└── README.md
+```
